@@ -31,6 +31,7 @@ $(function () {
       //Parent ID
       let btnParentId = $(this).parent().attr('id');
       //Event Description
+      getInputInfo();
       let eventDesc = $(this).prev().val();
       console.log(eventDesc);
     });
@@ -69,11 +70,15 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
 
-  function storeEventInfo() {
+  function storeEventInfo(eventObj) {
     localStorage.setItem('localStoredEvents', JSON.stringify(eventObj));
   }
   function getInputInfo() {
-    storeEventInfo();
+    eventObj = {
+      name: 'john',
+      age: 99,
+    };
+    storeEventInfo(eventObj);
   }
 
   // TODO: Add code to display the current date in the header of the page.
