@@ -2,14 +2,17 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
-  let currentHour = 16;
+  let currentHour;
   const todayObj = dayjs();
   const timeBlocks = $('.time-block');
 
-  //Grab time every sec
-  // const currentHour = setInterval(function () {
-  //   return dayjs().hour();
-  // }, 1000);
+  function updateCurrentHour() {
+    currentHour = dayjs().hour();
+
+    //Update block colour as the clock runs
+    updateBlockColour();
+  }
+  setInterval(updateCurrentHour, 1000);
 
   // console.log(currentHour);
 
@@ -39,24 +42,26 @@ $(function () {
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
 
-  timeBlocks.each(function () {
-    //grab id from the each block, remove hour- and convert to a number
-    let hourId = parseInt($(this).attr('id').replace('hour-', ''));
+  function updateBlockColour() {
+    timeBlocks.each(function () {
+      //grab id from the each block, remove hour- and convert to a number
+      let hourId = parseInt($(this).attr('id').replace('hour-', ''));
 
-    //Reset all time block classes
-    $(this).removeClass('past present future');
+      //Reset all time block classes
+      $(this).removeClass('past present future');
 
-    if (hourId < currentHour) {
-      $(this).addClass('past');
-      return;
-    }
-    if (hourId === currentHour) {
-      $(this).addClass('present');
-      return;
-    }
-    //Else do this
-    $(this).addClass('future');
-  });
+      if (hourId < currentHour) {
+        $(this).addClass('past');
+        return;
+      }
+      if (hourId === currentHour) {
+        $(this).addClass('present');
+        return;
+      }
+      //Else do this
+      $(this).addClass('future');
+    });
+  }
 
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
