@@ -2,9 +2,18 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
+  let currentHour;
   const todayObj = dayjs();
-  const currentTime = todayObj.format('H');
-  console.log(currentTime);
+  const timeBlocks = $('.time-block');
+
+  //Grab time every sec
+  function getCurrentHour() {
+    setInterval(() => {
+      currentHour = dayjs().format('H');
+      console.log(currentHour);
+    }, 1000);
+  }
+  // getCurrentHour();
 
   console.log(todayObj);
   // TODO: Add a listener for click events on the save button. This code should
@@ -13,15 +22,18 @@ $(function () {
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
-  const timeBlocks = $('.time-block');
 
-  timeBlocks.on('click', '.saveBtn', function () {
-    //Parent ID
-    let btnParentId = $(this).parent().attr('id');
-    //Event Description
-    let eventDesc = $(this).prev().val();
-    console.log(eventDesc);
-  });
+  function listenToSaveBtn() {
+    timeBlocks.on('click', '.saveBtn', function () {
+      //Parent ID
+      let btnParentId = $(this).parent().attr('id');
+      //Event Description
+      let eventDesc = $(this).prev().val();
+      console.log(eventDesc);
+    });
+  }
+
+  listenToSaveBtn();
   //
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
@@ -29,7 +41,7 @@ $(function () {
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
   $.each(timeBlocks, function (key, value) {
-    if ($(this).attr('id') === `hour-${currentTime}`) {
+    if ($(this).attr('id') === `hour-${currentHour}`) {
       console.log(`this is the tiime`);
       $(this).addClass('present');
     }
