@@ -5,14 +5,16 @@ $(function () {
   let currentHour;
   const todayObj = dayjs();
   const timeBlocks = $('.time-block');
+  let eventObj = {};
 
   function updateCurrentHour() {
     currentHour = dayjs().hour();
 
     //Update block colour as the clock runs
+
     updateBlockColour();
+    listenToSaveBtn();
   }
-  setInterval(updateCurrentHour, 1000);
 
   // console.log(currentHour);
 
@@ -34,7 +36,6 @@ $(function () {
     });
   }
 
-  listenToSaveBtn();
   //
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
@@ -67,10 +68,28 @@ $(function () {
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
-  //
+
+  function storeEventInfo() {
+    localStorage.setItem('localStoredEvents', JSON.stringify(eventObj));
+  }
+  function getInputInfo() {
+    storeEventInfo();
+  }
+
   // TODO: Add code to display the current date in the header of the page.
   $('#currentDay').text(todayObj.format('dddd - MMM  D, YYYY'));
 
   ///////// add maybe
   //  if the time is passed disable the storage btn and text input
+
+  function init() {
+    setInterval(updateCurrentHour, 1000);
+
+    let storedEventObj = JSON.parse(localStorage.getItem('localStoredEvents'));
+
+    if (storeEventInfo !== null) {
+      eventObj = storedEventObj;
+    }
+  }
+  init();
 });
