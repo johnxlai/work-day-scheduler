@@ -2,18 +2,16 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
-  let currentHour;
+  let currentHour = 16;
   const todayObj = dayjs();
   const timeBlocks = $('.time-block');
 
   //Grab time every sec
-  function getCurrentHour() {
-    setInterval(() => {
-      currentHour = dayjs().format('H');
-      console.log(currentHour);
-    }, 1000);
-  }
-  // getCurrentHour();
+  // const currentHour = setInterval(function () {
+  //   return dayjs().hour();
+  // }, 1000);
+
+  // console.log(currentHour);
 
   console.log(todayObj);
   // TODO: Add a listener for click events on the save button. This code should
@@ -40,12 +38,24 @@ $(function () {
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
-  $.each(timeBlocks, function (key, value) {
+  let name = 'john';
+  timeBlocks.each(function () {
+    console.log($(this));
+    console.log(currentHour);
+
     if ($(this).attr('id') === `hour-${currentHour}`) {
-      console.log(`this is the tiime`);
-      $(this).addClass('present');
+      $(this).removeClass('future').addClass('present');
     }
   });
+  // $.each(timeBlocks, function () {
+  //   console.log(currentHour);
+
+  //   // console.log($(this).attr('id'));
+  //   if ($(this).attr('id') === `hour-${currentHour}`) {
+  //     $(this).addClass('present');
+  //   }
+  // });
+
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
