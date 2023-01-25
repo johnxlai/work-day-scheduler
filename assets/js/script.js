@@ -5,7 +5,7 @@ $(function () {
   let currentHour;
   const todayObj = dayjs();
   const timeBlocks = $('.time-block');
-  let eventObj = {};
+  let eventArray = [];
 
   function updateCurrentHour() {
     currentHour = dayjs().hour();
@@ -30,10 +30,10 @@ $(function () {
     timeBlocks.on('click', '.saveBtn', function () {
       //Parent ID
       let btnParentId = $(this).parent().attr('id');
+      console.log(btnParentId);
       //Event Description
-      getInputInfo();
       let eventDesc = $(this).prev().val();
-      console.log(eventDesc);
+      getInputInfo(btnParentId, eventDesc);
     });
   }
 
@@ -70,15 +70,17 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
 
-  function storeEventInfo(eventObj) {
-    localStorage.setItem('localStoredEvents', JSON.stringify(eventObj));
+  function storeEventInfo(eventArray) {
+    localStorage.setItem('localStoredEvents', JSON.stringify(eventArray));
   }
-  function getInputInfo() {
-    eventObj = {
-      name: 'john',
-      age: 99,
+  function getInputInfo(id, event) {
+    newEvent = {
+      id,
+      event,
     };
-    storeEventInfo(eventObj);
+    console.log(typeof eventArray);
+    eventArray.push(newEvent);
+    storeEventInfo(eventArray);
   }
 
   // TODO: Add code to display the current date in the header of the page.
@@ -90,10 +92,12 @@ $(function () {
   function init() {
     setInterval(updateCurrentHour, 1000);
 
-    let storedEventObj = JSON.parse(localStorage.getItem('localStoredEvents'));
+    let storedEventArray = JSON.parse(
+      localStorage.getItem('localStoredEvents')
+    );
 
     if (storeEventInfo !== null) {
-      eventObj = storedEventObj;
+      eventArray = storedEventArray;
     }
   }
   init();
