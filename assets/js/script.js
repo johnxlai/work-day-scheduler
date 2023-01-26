@@ -5,15 +5,12 @@ $(function () {
   let currentHour;
   const todayObj = dayjs();
   const timeBlocks = $('.time-block');
-  let eventArray = [];
 
   function updateCurrentHour() {
     currentHour = dayjs().hour();
 
     //Update block colour as the clock runs
-
     updateBlockColour();
-    listenToSaveBtn();
   }
 
   // console.log(currentHour);
@@ -26,16 +23,14 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
 
-  function listenToSaveBtn() {
-    timeBlocks.on('click', '.saveBtn', function () {
-      //Parent ID
-      let btnParentId = $(this).parent().attr('id');
-      console.log(btnParentId);
-      //Event Description
-      let eventDesc = $(this).prev().val();
-      getInputInfo(btnParentId, eventDesc);
-    });
-  }
+  timeBlocks.on('click', '.saveBtn', function () {
+    //Parent ID
+    let btnParentId = $(this).parent().attr('id');
+    console.log(btnParentId);
+    //Event Description
+    let eventDesc = $(this).prev().val();
+    addNewEvents(btnParentId, eventDesc);
+  });
 
   //
   // TODO: Add code to apply the past, present, or future class to each time
@@ -70,35 +65,43 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
 
-  function storeEventInfo(eventArray) {
-    localStorage.setItem('localStoredEvents', JSON.stringify(eventArray));
-  }
-  function getInputInfo(id, event) {
-    newEvent = {
-      id,
-      event,
-    };
-    console.log(typeof eventArray);
-    eventArray.push(newEvent);
-    storeEventInfo(eventArray);
-  }
-
   // TODO: Add code to display the current date in the header of the page.
   $('#currentDay').text(todayObj.format('dddd - MMM  D, YYYY'));
 
   ///////// add maybe
   //  if the time is passed disable the storage btn and text input
 
+  function displayEvents(events) {
+    console.log(events);
+    blockHtml = '';
+    events.forEach((e) => {
+      blockHtml += `<p>${e.event}</p>`;
+    });
+
+    timeBlocks.each(function (block) {
+      console.log($(this).attr('id'));
+      $(this).is($(this).attr('id'));
+    });
+  }
+
+  function addNewEvents(id, event) {
+    //if there is something in the eventsList add that else add empty arrays
+    let storedEvents = JSON.parse(localStorage.getItem('eventsList')) || [];
+
+    let newEvent = {
+      id,
+      event,
+    };
+    //add new events to storedEvents array
+    storedEvents.push(newEvent);
+    //Update localStorage eventsList to storedEvents
+    localStorage.setItem('eventsList', JSON.stringify(storedEvents));
+
+    displayEvents(storedEvents);
+  }
+
   function init() {
     setInterval(updateCurrentHour, 1000);
-
-    let storedEventArray = JSON.parse(
-      localStorage.getItem('localStoredEvents')
-    );
-
-    if (storeEventInfo !== null) {
-      eventArray = storedEventArray;
-    }
   }
   init();
 });
