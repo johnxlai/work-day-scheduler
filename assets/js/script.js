@@ -5,6 +5,7 @@ $(function () {
   let currentHour;
   const todayObj = dayjs();
   const timeBlocks = $('.time-block');
+  const status = $('#status');
 
   function updateCurrentHour() {
     currentHour = dayjs().hour();
@@ -70,6 +71,14 @@ $(function () {
   ///////// add maybe
   //  if the time is passed disable the storage btn and text input
 
+  //Confirmation of saved message
+  function eventSaved() {
+    const saved = `<h3 class="h6 bg-secondary text-white px-3 py-2 d-inline-block">
+    Appointment added to local storage.
+    </h3>`;
+    status.html(saved);
+  }
+
   function displayEvents() {
     let events = JSON.parse(localStorage.getItem('eventsList')) || [];
 
@@ -90,7 +99,7 @@ $(function () {
     storedEvents.push(newEvent);
     //Update localStorage eventsList to storedEvents
     localStorage.setItem('eventsList', JSON.stringify(storedEvents));
-
+    eventSaved();
     displayEvents();
   }
 
