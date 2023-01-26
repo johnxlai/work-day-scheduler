@@ -42,10 +42,13 @@ $(function () {
 
   //Confirmation of saved message
   function eventSaved() {
-    const saved = `<h3 class="h6 bg-secondary text-white px-3 py-2 d-inline-block">
+    const saved = `<span class="h6 bg-secondary text-white px-3 py-2">
     Appointment added to local storage.
-    </h3>`;
+    </span>`;
+    //display span
     status.html(saved);
+    //Hide element after 3secs with jquery fadeout animation
+    status.children('span').delay(2000).fadeOut();
   }
 
   function displayEvents() {
