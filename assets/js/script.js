@@ -73,21 +73,9 @@ $(function () {
   function displayEvents() {
     let events = JSON.parse(localStorage.getItem('eventsList')) || [];
 
-    let blockHtml, objBlockId, blockId;
-    console.log(events);
-
     events.forEach((e) => {
-      objBlockId = `${e.id}`;
-      blockHtml += `${e.event}`;
+      $(`#${e.id}`).find('.description').text(e.event);
     });
-
-    timeBlocks.each(function () {
-      blockId = $(this).attr('id');
-    });
-    console.log(objBlockId, blockId);
-    if (objBlockId === blockId) {
-      $(`#${blockId}`).find('.description').text(blockHtml);
-    }
   }
 
   function addNewEvents(id, event) {
