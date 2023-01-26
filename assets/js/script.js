@@ -35,13 +35,10 @@ $(function () {
     updateBlockColour();
   }
 
+  //Show Current Time in the header
   function updateCurrentDay() {
     currentDayEl.text(todayObj.format('dddd - MMM  D, YYYY'));
   }
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
 
   //Confirmation of saved message
   function eventSaved() {
@@ -63,10 +60,12 @@ $(function () {
     //if there is something in the eventsList add that else add empty arrays
     let storedEvents = JSON.parse(localStorage.getItem('eventsList')) || [];
 
+    //Create new events
     let newEvent = {
       id,
       event,
     };
+
     //add new events to storedEvents array
     storedEvents.push(newEvent);
     //Update localStorage eventsList to storedEvents
