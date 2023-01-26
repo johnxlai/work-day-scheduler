@@ -41,7 +41,7 @@ $(function () {
   }
 
   //Confirmation of saved message
-  function eventSaved() {
+  function displaySavedEvents() {
     const saved = `<span class="h6 bg-secondary text-white px-3 py-2">
     Appointment added to local storage.
     </span>`;
@@ -51,6 +51,7 @@ $(function () {
     status.children('span').delay(2000).fadeOut();
   }
 
+  //Grab from local storage and display on screen
   function displayEvents() {
     let events = JSON.parse(localStorage.getItem('eventsList')) || [];
 
@@ -73,18 +74,18 @@ $(function () {
     storedEvents.push(newEvent);
     //Update localStorage eventsList to storedEvents
     localStorage.setItem('eventsList', JSON.stringify(storedEvents));
-    eventSaved();
+    displaySavedEvents();
     displayEvents();
   }
 
-  //listener on btns
-  timeBlocks.on('click', '.saveBtn', function () {
+  //Getting each button info to pass to new event function
+  function grabButtonInfo() {
     //Parent ID
     let btnParentId = $(this).parent().attr('id');
     //Event Description
     let eventDesc = $(this).prev().val();
     addNewEvents(btnParentId, eventDesc);
-  });
+  }
 
   function init() {
     //Check time every sec to update time block colours
@@ -93,5 +94,9 @@ $(function () {
     displayEvents();
     updateCurrentDay();
   }
+
+  //listener on btns
+  timeBlocks.on('click', '.saveBtn', grabButtonInfo);
+
   init();
 });
