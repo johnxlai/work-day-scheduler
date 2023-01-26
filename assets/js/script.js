@@ -15,7 +15,6 @@ $(function () {
 
   // console.log(currentHour);
 
-  console.log(todayObj);
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -71,16 +70,19 @@ $(function () {
   ///////// add maybe
   //  if the time is passed disable the storage btn and text input
 
-  function displayEvents(events) {
-    console.log(events);
+  function displayEvents() {
+    let events = JSON.parse(localStorage.getItem('eventsList')) || [];
+
     blockHtml = '';
     events.forEach((e) => {
-      blockHtml += `<p>${e.event}</p>`;
+      blockHtml += `${e.event}`;
     });
 
     timeBlocks.each(function (block) {
       console.log($(this).attr('id'));
-      $(this).is($(this).attr('id'));
+      $($(this).attr('id')).text(blockHtml);
+      let blockId = $(this).attr('id');
+      console.dir($(`#${blockId}`).find('.description').text(blockHtml));
     });
   }
 
@@ -97,11 +99,12 @@ $(function () {
     //Update localStorage eventsList to storedEvents
     localStorage.setItem('eventsList', JSON.stringify(storedEvents));
 
-    displayEvents(storedEvents);
+    displayEvents();
   }
 
   function init() {
     setInterval(updateCurrentHour, 1000);
+    displayEvents();
   }
   init();
 });
