@@ -73,17 +73,21 @@ $(function () {
   function displayEvents() {
     let events = JSON.parse(localStorage.getItem('eventsList')) || [];
 
-    blockHtml = '';
+    let blockHtml, objBlockId, blockId;
+    console.log(events);
+
     events.forEach((e) => {
+      objBlockId = `${e.id}`;
       blockHtml += `${e.event}`;
     });
 
-    timeBlocks.each(function (block) {
-      console.log($(this).attr('id'));
-      $($(this).attr('id')).text(blockHtml);
-      let blockId = $(this).attr('id');
-      console.dir($(`#${blockId}`).find('.description').text(blockHtml));
+    timeBlocks.each(function () {
+      blockId = $(this).attr('id');
     });
+    console.log(objBlockId, blockId);
+    if (objBlockId === blockId) {
+      $(`#${blockId}`).find('.description').text(blockHtml);
+    }
   }
 
   function addNewEvents(id, event) {
