@@ -29,7 +29,7 @@ $(function () {
   }
 
   function updateCurrentHour() {
-    currentHour = dayjs().hour();
+    currentHour = todayObj.hour();
 
     //Update block colour as the clock runs
     updateBlockColour();
@@ -41,12 +41,12 @@ $(function () {
   }
 
   //Confirmation of saved message
-  function displaySavedEvents() {
-    const saved = `<span class="h6 bg-secondary text-white px-3 py-2">
+  function displaySavedMessage() {
+    const savedMsg = `<span class="h6 bg-secondary text-white px-3 py-2">
     Appointment added to local storage.
     </span>`;
     //display span
-    status.html(saved);
+    status.html(savedMsg);
     //Hide element after 3secs with jquery fadeout animation
     status.children('span').delay(2000).fadeOut();
   }
@@ -74,7 +74,7 @@ $(function () {
     storedEvents.push(newEvent);
     //Update localStorage eventsList to storedEvents
     localStorage.setItem('eventsList', JSON.stringify(storedEvents));
-    displaySavedEvents();
+    displaySavedMessage();
     displayEvents();
   }
 
